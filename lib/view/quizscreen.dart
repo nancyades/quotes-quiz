@@ -39,14 +39,18 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
     super.initState();
     _controller = CountDownController();
     _startTimer();
-    if(nextquestion){
-      AppConstants.questionno = widget.questionno!;
-    }
-    if(AppConstants.questionno >= 20){
-      _timer.cancel();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+
+      if(nextquestion){
+        AppConstants.questionno = widget.questionno!;
+      }
+      if(AppConstants.questionno >= 20){
+        _timer.cancel();
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => CompletedScreen()),);
 
-    }
+      }
+    });
+
   }
 
   void _startTimer() {
@@ -151,7 +155,7 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
                       itemCount: randomAuthors.length,
                         itemBuilder: (context, int index){
                       return InkWell(
-                        onTap: (){
+                        onTap: ()async{
                           print("print it");
                           print(randomAuthors[index].toString());
                           if(randomAuthors[index].toString() == data.quoteAuthor.toString()){
@@ -160,7 +164,8 @@ class _QuizScreenState extends ConsumerState<QuizScreen> {
                             print(AppConstants.totalscore);
                           }
                           nextquestion = true;
-
+                          ref.refresh(getQuotesListNotifier);
+                          await ref.read(getQuotesListNotifier);
                           Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => QuizScreen(questionno: AppConstants.questionno,)
                           ),
                           );

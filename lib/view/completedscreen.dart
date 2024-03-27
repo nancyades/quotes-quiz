@@ -93,7 +93,12 @@ class _CompletedScreenState extends ConsumerState<CompletedScreen> {
                     child: TextButton(
                       onPressed: ()  {
 
-                        Navigator.pushReplacement(
+                        ref.refresh(getQuotesListNotifier);
+                          AppConstants.totalscore = 0;
+                         AppConstants.questionno =0;
+                        AppConstants.username = "Nancy";
+
+                        Navigator.push(
                           context,
                           MaterialPageRoute(builder: (context) => LoginScreen()),
                         );
