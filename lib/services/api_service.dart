@@ -33,31 +33,7 @@ class Api_Proider {
   }
 
 
-  Future<UserModel?> createUser(String username, String password) async {
-    var url = Uri.parse('https://dummyjson.com/auth/login');
-    var data = {
-      "username": "${username}",
-      "password": "${password}"
-    };
-    var jsonBody = jsonEncode(data);
-    var response = await http.post(url,
-      headers: {'Content-Type': 'application/json' },
-      body: jsonBody,
-    );
-    if (response.statusCode == 201) {
-      var responseData = jsonDecode(response.body);
-      var user = UserModel.fromJson(responseData);
-      print('User created successfully:');
-      print('Name: ${user.firstName}');
-      print('Job: ${user.email}');
-      print('ID: ${user.id}');
-      print('Created At: ${user.username}');
-      return user;
-    } else {
-      print('Failed to create user. Status code: ${response.statusCode}');
-      print('Response body: ${response.body}');
-    }
-  }
+
 
 
 }
